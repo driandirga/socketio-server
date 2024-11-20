@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO ES6 Example</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { margin-top: 20px; }
+        #messages div { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Example with ES6</h1>
+    <input id="messageInput" type="text" placeholder="Type a message" />
+    <button id="sendButton">Send</button>
+
+    <div id="messages"></div>
+
+    <script>
+        // Connect to the server
+        const socket = io();
+
+        // Elements
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const messagesDiv = document.getElementById('messages');
+
+        // Send message to the server
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                socket.emit('message', message);
+                messageInput.value = '';
+            }
+        });
+
+        // Listen for messages from the server
+        socket.on('message', (data) => {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = data;
+            messagesDiv.appendChild(messageElement);
+        });
+    </script>
+</body>
+</html>
